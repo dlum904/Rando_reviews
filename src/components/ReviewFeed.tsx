@@ -1,4 +1,5 @@
 import type { Review } from '../types/review'
+import Button from './Button'
 import ReviewCard from './ReviewCard'
 
 type ReviewFeedProps = {
@@ -9,23 +10,21 @@ type ReviewFeedProps = {
 export default function ReviewFeed({ reviews, onWriteReview }: ReviewFeedProps) {
   if (reviews.length === 0) {
     return (
-      <section className="review-feed review-feed--empty">
-        <p className="review-feed__empty-text">No reviews match your search.</p>
-        <button type="button" className="btn btn--primary" onClick={onWriteReview}>
-          Write the first review
-        </button>
+      <section className="px-6 py-16 text-center max-md:px-4">
+        <p className="mb-5 text-lg text-text-muted">No reviews match your search.</p>
+        <Button onClick={onWriteReview}>Write the first review</Button>
       </section>
     )
   }
 
   return (
-    <section className="review-feed">
-      <div className="review-feed__header">
-        <h2 className="review-feed__title">
+    <section>
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold">
           {reviews.length} review{reviews.length !== 1 ? 's' : ''}
         </h2>
       </div>
-      <div className="review-feed__grid">
+      <div className="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
         {reviews.map((review) => (
           <ReviewCard key={review.id} review={review} />
         ))}

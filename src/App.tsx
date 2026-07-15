@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import CategoryBar from './components/CategoryBar'
+import Footer from './components/Footer'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import ReviewFeed from './components/ReviewFeed'
@@ -7,8 +8,6 @@ import ReviewForm, { type ReviewFormData } from './components/ReviewForm'
 import { seedReviews } from './data/seedReviews'
 import type { Review } from './types/review'
 import { loadUserReviews, saveUserReviews } from './utils/reviewStorage'
-import './App.css'
-import Footer from './components/Footer'
 
 function App() {
   const [userReviews, setUserReviews] = useState<Review[]>(loadUserReviews)
@@ -59,14 +58,14 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className="flex min-h-svh flex-col">
       <Header onWriteReview={() => setIsFormOpen(true)} />
       <Hero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <CategoryBar
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
-      <main className="main">
+      <main className="mx-auto w-full max-w-[1200px] flex-1 px-6 py-8 pb-16 max-md:px-4">
         <ReviewFeed
           reviews={filteredReviews}
           onWriteReview={() => setIsFormOpen(true)}
@@ -77,7 +76,14 @@ function App() {
         onClose={() => setIsFormOpen(false)}
         onSubmit={handleSubmitReview}
       />
-      {toast && <div className="toast" role="status">{toast}</div>}
+      {toast && (
+        <div
+          className="fixed bottom-6 left-1/2 z-300 -translate-x-1/2 animate-toast-in rounded-lg bg-accent px-6 py-3 text-[15px] font-medium text-white shadow-modal"
+          role="status"
+        >
+          {toast}
+        </div>
+      )}
       <Footer />
     </div>
   )

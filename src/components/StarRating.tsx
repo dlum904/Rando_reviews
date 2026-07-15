@@ -6,10 +6,18 @@ type StarRatingProps = {
   size?: 'sm' | 'md'
 }
 
-function StarIcon({ filled }: { filled: boolean }) {
+function StarIcon({
+  filled,
+  size,
+}: {
+  filled: boolean
+  size: 'sm' | 'md'
+}) {
+  const sizeClass = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5'
+
   return (
     <svg
-      className={`star-icon ${filled ? 'star-icon--filled' : ''}`}
+      className={`${sizeClass} ${filled ? 'fill-star' : 'fill-star-empty'}`}
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
@@ -27,7 +35,7 @@ export default function StarRating({
 }: StarRatingProps) {
   return (
     <div
-      className={`star-rating star-rating--${size}${interactive ? ' star-rating--interactive' : ''}`}
+      className="inline-flex items-center gap-0.5"
       role={interactive ? 'radiogroup' : 'img'}
       aria-label={interactive ? 'Rating' : `${rating} out of ${max} stars`}
     >
@@ -40,18 +48,18 @@ export default function StarRating({
             <button
               key={starValue}
               type="button"
-              className="star-button"
+              className="group cursor-pointer border-none bg-transparent p-0.5 leading-none [&:hover_svg]:fill-star"
               role="radio"
               aria-checked={filled}
               aria-label={`${starValue} star${starValue !== 1 ? 's' : ''}`}
               onClick={() => onChange?.(starValue)}
             >
-              <StarIcon filled={filled} />
+              <StarIcon filled={filled} size={size} />
             </button>
           )
         }
 
-        return <StarIcon key={starValue} filled={filled} />
+        return <StarIcon key={starValue} filled={filled} size={size} />
       })}
     </div>
   )
