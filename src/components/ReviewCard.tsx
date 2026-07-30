@@ -1,8 +1,10 @@
+import type { KeyboardEvent } from 'react'
 import type { Review } from '../types/review'
 import StarRating from './StarRating'
 
 type ReviewCardProps = {
   review: Review
+  onSelect: (review: Review) => void
 }
 
 function formatDate(dateStr: string) {
@@ -13,9 +15,23 @@ function formatDate(dateStr: string) {
   })
 }
 
-export default function ReviewCard({ review }: ReviewCardProps) {
+export default function ReviewCard({ review, onSelect }: ReviewCardProps) {
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onSelect(review)
+    }
+  }
+
   return (
-    <article className="rounded-lg border border-border bg-bg-elevated p-5 text-left transition-[box-shadow,border-color] duration-200 hover:border-accent hover:shadow-card">
+    <article
+      className="cursor-pointer rounded-lg border border-border bg-bg-elevated p-5 text-left transition-[box-shadow,border-color] duration-200 hover:border-accent hover:shadow-card"
+      onClick={() => onSelect(review)}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-label={`View review of ${review.subject}`}
+    >
       <div className="mb-2.5 flex items-center justify-between">
         <span className="rounded bg-accent-bg px-2 py-0.5 text-xs font-semibold tracking-wide text-accent uppercase">
           {review.category}

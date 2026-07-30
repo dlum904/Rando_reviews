@@ -5,9 +5,14 @@ import ReviewCard from './ReviewCard'
 type ReviewFeedProps = {
   reviews: Review[]
   onWriteReview: () => void
+  onSelectReview: (review: Review) => void
 }
 
-export default function ReviewFeed({ reviews, onWriteReview }: ReviewFeedProps) {
+export default function ReviewFeed({
+  reviews,
+  onWriteReview,
+  onSelectReview,
+}: ReviewFeedProps) {
   if (reviews.length === 0) {
     return (
       <section className="px-6 py-16 text-center max-md:px-4">
@@ -26,7 +31,11 @@ export default function ReviewFeed({ reviews, onWriteReview }: ReviewFeedProps) 
       </div>
       <div className="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
         {reviews.map((review) => (
-          <ReviewCard key={review.id} review={review} />
+          <ReviewCard
+            key={review.id}
+            review={review}
+            onSelect={onSelectReview}
+          />
         ))}
       </div>
     </section>
